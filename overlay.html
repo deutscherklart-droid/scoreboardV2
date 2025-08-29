@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Basketball Scoreboard Overlay</title>
+    <style>
+      body {
+        background: transparent;
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+      #scoreboard {
+        background: rgba(0, 0, 0, 0.7);
+        color: #fff;
+        padding: 20px 40px;
+        border-radius: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-width: 400px;
+        font-size: 2em;
+      }
+      .team {
+        margin: 0 20px;
+      }
+      .score {
+        font-weight: bold;
+        font-size: 2.5em;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="scoreboard">
+      <span class="team" id="teamA">Team A</span>
+      <span class="score" id="scoreA">0</span>
+      <span>:</span>
+      <span class="score" id="scoreB">0</span>
+      <span class="team" id="teamB">Team B</span>
+    </div>
+    <script>
+      function updateScoreboard() {
+        const data = JSON.parse(
+          localStorage.getItem("scoreboard") ||
+            '{"teamA":"Team A","teamB":"Team B","scoreA":0,"scoreB":0}'
+        );
+        document.getElementById("teamA").textContent = data.teamA;
+        document.getElementById("teamB").textContent = data.teamB;
+        document.getElementById("scoreA").textContent = data.scoreA;
+        document.getElementById("scoreB").textContent = data.scoreB;
+      }
+      window.addEventListener("storage", updateScoreboard);
+      updateScoreboard();
+    </script>
+  </body>
+</html>

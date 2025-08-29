@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Scoreboard Control</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #222;
+        color: #fff;
+        padding: 40px;
+      }
+      label {
+        display: block;
+        margin-top: 20px;
+      }
+      input[type="text"],
+      input[type="number"] {
+        font-size: 1.2em;
+        padding: 4px;
+      }
+      button {
+        font-size: 1.2em;
+        margin: 10px 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Scoreboard Control</h1>
+    <label>Team A Name: <input id="teamA" type="text" value="Team A" /></label>
+    <label>Team B Name: <input id="teamB" type="text" value="Team B" /></label>
+    <label>Team A Score: <input id="scoreA" type="number" value="0" /></label>
+    <label>Team B Score: <input id="scoreB" type="number" value="0" /></label>
+    <div>
+      <button onclick="changeScore('A', 1)">A +</button>
+      <button onclick="changeScore('A', -1)">A -</button>
+      <button onclick="changeScore('B', 1)">B +</button>
+      <button onclick="changeScore('B', -1)">B -</button>
+      <button onclick="save()">Update</button>
+    </div>
+    <script>
+      function save() {
+        const data = {
+          teamA: document.getElementById("teamA").value,
+          teamB: document.getElementById("teamB").value,
+          scoreA: parseInt(document.getElementById("scoreA").value, 10),
+          scoreB: parseInt(document.getElementById("scoreB").value, 10),
+        };
+        localStorage.setItem("scoreboard", JSON.stringify(data));
+      }
+      function changeScore(team, delta) {
+        const el = document.getElementById("score" + team);
+        el.value = Math.max(0, parseInt(el.value, 10) + delta);
+        save();
+      }
+      // Load existing data
+      window.onload = function () {
+        const data = JSON.parse(
+          localStorage.getItem("scoreboard") ||
+            '{"teamA":"Team A","teamB":"Team B","scoreA":0,"scoreB":0}'
+        );
+        document.getElementById("teamA").value = data.teamA;
+        document.getElementById("teamB").value = data.teamB;
+        document.getElementById("scoreA").value = data.scoreA;
+        document.getElementById("scoreB").value = data.scoreB;
+      };
+    </script>
+  </body>
+</html>
